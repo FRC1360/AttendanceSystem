@@ -10,15 +10,15 @@ database.connect("mongodb+srv://admin:389179@cluster0.vccaflc.mongodb.net/?retry
 });
 
 database.connection.on("connected", () => {
-    process.stdout.write(`[${chalk.greenBright("BOOT")}] Connected to MongoDB!\n`);
+    console.log(`[${chalk.greenBright("BOOT")}] Connected to MongoDB!\n`);
 });
 
 database.connection.on("err", err => {
-    process.stdout.write(`[${chalk.redBright("ERROR")}] Unable to connect to the MongoDB. Error:\n${err}\n`);
+    console.log(`[${chalk.redBright("ERROR")}] Unable to connect to the MongoDB. Error:\n${err}\n`);
 });
 
 database.connection.on("disconnected", () => {
-    process.stdout.write(`[${chalk.blueBright("INFO")}] MongoDB connection is disconnected\n`);
+    console.log(`[${chalk.blueBright("INFO")}] MongoDB connection is disconnected\n`);
 });
 
 let whitelist = ['http://localhost:8080']
@@ -54,5 +54,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(8080, () => {
-    console.log(`App listening on port 8080`)
+    console.log(`[${chalk.greenBright("BOOT")}] App listening on port 8080`)
 });
