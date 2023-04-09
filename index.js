@@ -1,7 +1,25 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const request = require('node-fetch');
+const database = require("mongoose");
+const chalk = require("chalk");
+
+database.connect("mongodb+srv://admin:389179@cluster0.vccaflc.mongodb.net/?retryWrites=true&w=majority", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
+database.connection.on("connected", () => {
+    process.stdout.write(`[${chalk.greenBright("BOOT")}] Connected to MongoDB!\n`);
+});
+
+database.connection.on("err", err => {
+    process.stdout.write(`[${chalk.redBright("ERROR")}] Unable to connect to the MongoDB. Error:\n${err}\n`);
+});
+
+database.connection.on("disconnected", () => {
+    process.stdout.write(`[${chalk.blueBright("INFO")}] MongoDB connection is disconnected\n`);
+});
 
 let whitelist = ['http://localhost:8080']
 
