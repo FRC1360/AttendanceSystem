@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const request = require('node-superfetch');
+const request = require('node-fetch');
 app.listen(8080)
 
 let whitelist = ['http://localhost:8080']
