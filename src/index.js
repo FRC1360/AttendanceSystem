@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const chalk = require("chalk");
 const databaseConnection = require("./utils/Database.js");
+const userData = require("./schemas/User.js");
 let whitelist = ['http://localhost:8080'];
 
 
@@ -18,8 +19,14 @@ app.use(cors({
     }
 }));
 
-app.get('/info', (req, res) => {
-    return res.json({});
+app.get('/get/member/:name', async(req, res) => {
+    userinfo = await findUser(req.params.name);
+    return res.json(userinfo);
+});
+
+app.get('/get/subteam/:name', async(req, res) => {
+    usersinfo = await findUsersBySubteam(req.params.name);
+    return res.json(usersinfo);
 });
 
 app.get('/', (req, res) => {
@@ -36,7 +43,31 @@ app.use((req, res, next) => {
     res.status(404).json(json);
 });
 
-app.listen(8080, () => {
+app.listen(8080, async() => {
     console.log(`[${chalk.greenBright("BOOT")}] App listening on port 8080`);
     databaseConnection.execute();
+    await console.log(await findUsersBySubteam('programming'))
+
 });
+
+async function findUser(name) {
+        let usersData = await userData.findOne({ name: name });
+        if (usersData) {
+            return usersData;
+        } else {
+            usersData = new userData({ name: name });
+            await usersData.save();
+        }
+}
+
+async function findUsersBySubteam(subteam) {
+    let usersData = await userData.find({ subteams: [subteam] });
+    return usersData;
+    
+}
+
+async function findUsersByJoinYear(year) {
+    let usersData = await userData.find({ joinYear: year });
+    return usersData;
+    
+}

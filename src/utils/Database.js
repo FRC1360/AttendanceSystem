@@ -17,7 +17,7 @@ module.exports = {
         });
         
         database.connection.on("disconnected", () => {
-            console.log(`[${chalk.blueBright("INFO")}] MongoDB connection is disconnected\n`);
+            console.log(`[${chalk.blueBright("INFO")}] MongoDB connection disconnected\n`);
         });        
     }
 };
